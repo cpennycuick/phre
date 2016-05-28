@@ -1,6 +1,6 @@
 <?php
 
-include 'Report.php';
+include 'vendor/autoload.php';
 
 $data = [
 	['ID' => 1, 'Name' => 'Frank', 'Group' => 'Funny', 'Value' => 2.5],

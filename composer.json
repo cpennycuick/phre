@@ -1,8 +1,8 @@
 {
 	"name": "cpennycuick/phre",
 	"autoload": {
-		"psr-0": {
-			"PHRE": "src"
+		"psr-4": {
+			"PHRE\\": "src/"
 		}
 	}
 }
