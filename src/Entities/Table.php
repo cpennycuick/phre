@@ -37,20 +37,20 @@ class Table extends HTMLElement {
 	}
 
 	protected function renderElements(DataSource $data) {
-		$parts = [];
 
 		if ($this->groupField) {
 			$record = $data->current();
 			$this->stateCurrentGroupValue = $record->get($this->groupField);
 		}
 
-		foreach ($this->headerRows as $row) {
-			$parts[] = $row->render($data);
-		}
+		// foreach calc fields
+		$dataGroup = $data->startGroup();
+		$dataGroup->startCalc('Value');
 
+		$bodyParts = [];
 		while ($data->current()->valid()) {
 			foreach ($this->bodyRows as $row) {
-				$parts[] = $row->render($data);
+				$bodyParts[] = $row->render($data);
 			}
 
 			if ($this->checkNextRecordInCurrentGroup($data)) {
@@ -60,9 +60,18 @@ class Table extends HTMLElement {
 			}
 		}
 
+		$parts = [];
+		foreach ($this->headerRows as $row) {
+			$parts[] = $row->render($data);
+		}
+
+		$parts = array_merge($parts, $bodyParts);
+
 		foreach ($this->footerRows as $row) {
 			$parts[] = $row->render($data);
 		}
+
+		$dataGroup->end();
 
 		return implode("\n", $parts);
 	}

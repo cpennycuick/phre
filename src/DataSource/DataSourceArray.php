@@ -8,8 +8,10 @@ class DataSourceArray implements DataSource {
 	 * @var \ArrayIterator
 	 */
 	private $iterator;
-	private $current = null;
-	private $peek = null;
+	private $current;
+	private $peek;
+	private $groups;
+	private $currentGroup;
 
 	public function __construct(array $array) {
 		$this->iterator = new \ArrayIterator($array);
@@ -18,6 +20,10 @@ class DataSourceArray implements DataSource {
 
 	public function reset() {
 		$this->iterator->rewind();
+		$this->current = null;
+		$this->peek = null;
+		$this->groups = [];
+		$this->currentGroup = null;
 	}
 
 	public function hasNext() {
@@ -25,33 +31,75 @@ class DataSourceArray implements DataSource {
 	}
 
 	public function next() {
-		if (!$this->peek) {
-			$this->current = null;
+		$this->current = $this->peek();
+
+		if ($this->current()->valid()) {
 			$this->iterator->next();
-		} else {
-			$this->current = $this->peek;
+			$this->processGroups();
 		}
 
-		if ($this->peek && $this->peek->valid()) {
-			$this->peek = null;
-		}
+		$this->peek = null;
 	}
 
+	/**
+	 * @return DataRecord
+	 */
 	public function current() {
-		if ($this->current) {
-			return $this->current;
+		if (!$this->current) {
+			$this->next();
 		}
 
-		return ($this->current = new DataRecord($this->iterator->current()));
+		return $this->current;
 	}
 
-	public function peek() {
-		if ($this->peek) {
-			return $this->peek;
+	/**
+	 * @return DataGroup
+	 */
+	public function group() {
+		if (!$this->currentGroup) {
+			$this->current();
 		}
 
-		$this->iterator->next();
-		return ($this->peek = new DataRecord($this->iterator->current()));
+		return $this->currentGroup;
+	}
+
+	/**
+	 * @return DataRecord
+	 */
+	public function peek() {
+		if (!$this->peek) {
+			$this->peek = $this->createNewDataRecord();
+		}
+
+		return $this->peek;
+	}
+
+	private function createNewDataRecord() {
+		return new DataRecord($this->iterator->current());
+	}
+
+	public function startGroup() {
+		$group = new DataGroup($this);
+		$this->groups[] = $group;
+
+		$this->processGroups();
+
+		return $group;
+	}
+
+	private function processGroups() {
+		$groups = [];
+		foreach ($this->groups as $group) {
+			if (!$group->isActive()) {
+				break; // Sub-groups must end anyway if parent group ends
+			}
+
+			$group->processRecord();
+			$groups[] = $group;
+			$this->currentGroup = $group;
+		}
+
+		$this->groups = $groups;
 	}
 
 }

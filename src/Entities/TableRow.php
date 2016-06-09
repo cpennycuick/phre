@@ -12,7 +12,9 @@ class TableRow extends HTMLElement {
 		if ($element instanceof TableCell) {
 			parent::add($element);
 		} else {
-			throw new \Exception('TableRow only accepts TableCell.');
+			$cell = TableCell::create();
+			$cell->add($element);
+			parent::add($cell);
 		}
 
 		return $this;

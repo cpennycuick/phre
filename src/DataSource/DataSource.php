@@ -20,4 +20,14 @@ interface DataSource {
 
 	public function reset();
 
+	/**
+	 * @return DataGroup
+	 */
+	public function startGroup();
+
+	/**
+	 * @return DataGroup
+	 */
+	public function group();
+
 }

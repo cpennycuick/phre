@@ -27,7 +27,7 @@ class Report {
 
 		$parts[] = '<body>';
 
-		while ($data->current()->valid()) {
+		while ($data->current()->valid() and count($parts) < 1000) {
 			$parts[] = $this->renderElements($data);
 
 			$data->next();

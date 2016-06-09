@@ -4,14 +4,14 @@ namespace PHRE\DataSource;
 
 class DataRecord {
 
-	private $data;
+	private $array;
 
-	public function __construct($data) {
-		$this->data = $data;
+	public function __construct($array) {
+		$this->array = $array;
 	}
 
 	public function valid() {
-		return ($this->data !== null);
+		return ($this->array !== null);
 	}
 
 	public function get($value) {
@@ -19,8 +19,8 @@ class DataRecord {
 			return null;
 		}
 
-		return (array_key_exists($value, $this->data)
-			? $this->data[$value]
+		return (array_key_exists($value, $this->array)
+			? $this->array[$value]
 			: null
 		);
 	}
