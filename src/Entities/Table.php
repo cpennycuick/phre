@@ -76,6 +76,10 @@ class Table extends HTMLElement {
 		return implode("\n", $parts);
 	}
 
+	private function renderGroupElements(DataSource $data) {
+		// TODO - Don't render a table for each group, but consider sub groups.
+	}
+
 	private function checkNextRecordInCurrentGroup(DataSource $data) {
 		if (!$data->hasNext()) {
 			return false;

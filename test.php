@@ -1,5 +1,6 @@
 <?php
 
+//define('_MPDF_PATH','vendor/mpdf/mpdf/');
 include 'vendor/autoload.php';
 
 $data = [
@@ -18,37 +19,42 @@ try {
 	$report = new PHRE\Report();
 
 	$styleSheet = (new PHRE\DataHolder\StyleSheet())
-		->add('tr.header > *', (new PHRE\DataHolder\Style())
+		->add('tr.header td', (new PHRE\DataHolder\Style())
 			->set('font-weight', 'bold')
 			->set('border-bottom', '1px solid black')
 		)
-		->add('tr.footer > *', (new PHRE\DataHolder\Style())
+		->add('tr.footer td', (new PHRE\DataHolder\Style())
 			->set('border-top', '1px solid black')
 		);
 
 	$report
-		->add(PHREE\Table::create()
-			->setGroupField('Group')
-			->add(PHREE\TableHeader::create()
-				->setAttribute('class', 'header')
-				->add(PHREE\Field::create('Group'))
-				->add(PHREE\Text::create('Value'))
-				->add(PHREE\Text::create('Balanace'))
-			)
-			->add(PHREE\TableBody::create()
-				->add(PHREE\Field::create('Name'))
-				->add(PHREE\Field::create('Value'))
-				->add(PHREE\FieldCalc::create('Value'))
-			)
-			->add(PHREE\TableFooter::create()
-				->setAttribute('class', 'footer')
-				->add(PHREE\Text::create('Foot'))
-				->add(PHREE\Text::create(''))
-				->add(PHREE\FieldCalc::create('Value'))
+		->addStyleSheet($styleSheet)
+		->add(PHREE\Page::create()
+			->add(PHREE\Table::create()
+				->setGroupField('Group')
+				->add(PHREE\TableHeader::create()
+					->setAttribute('class', 'header')
+					->add(PHREE\Field::create('Group'))
+					->add(PHREE\Text::create('Value'))
+					->add(PHREE\Text::create('Balanace'))
+				)
+				->add(PHREE\TableBody::create()
+					->add(PHREE\Field::create('Name'))
+					->add(PHREE\Field::create('Value'))
+					->add(PHREE\FieldCalc::create('Value'))
+				)
+				->add(PHREE\TableFooter::create()
+					->setAttribute('class', 'footer')
+					->add(PHREE\Text::create('Foot'))
+					->add(PHREE\Text::create(''))
+					->add(PHREE\FieldCalc::create('Value'))
+				)
 			)
 		);
 
-	echo $report->generate(new PHRE\DataSource\DataSourceArray($data), $styleSheet);
+	echo $report->generateHTML(new PHRE\DataSource\DataSourceArray($data));
+//	echo $report->generatePDF(new PHRE\DataSource\DataSourceArray($data));
+
 } catch (\Exception $e) {
 	echo $e->getMessage()."\n".$e->getTraceAsString();
 }
