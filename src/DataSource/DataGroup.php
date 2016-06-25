@@ -7,14 +7,15 @@ class DataGroup {
 	const ACTION_SUM = 'Sum';
 	const ACTION_COUNT = 'Count';
 
-	private $data = null;
-	private $dataRecord = null;
+	private $data;
+	private $groupField;
 
-	private $active = true;
+	private $dataRecord = null;
 	private $values = [];
 
-	public function __construct(DataSource $data) {
+	public function __construct(DataSource $data, $groupField) {
 		$this->data = $data;
+		$this->groupField = $groupField;
 	}
 
 	public function startCalc($field) {
@@ -23,22 +24,24 @@ class DataGroup {
 			self::ACTION_SUM => 0,
 		];
 
+		echo "Start calc for $field (".spl_object_hash($this).")\n";
 		$this->processRecordField($field, $this->values[$field]);
 	}
 
-//	public function getSum($field) {
-//		return $this->getValue($field, self::ACTION_SUM);
-//	}
-//
-//	public function getCount($field) {
-//		return $this->getValue($field, self::ACTION_COUNT);
-//	}
+	public function resetValues() {
+		foreach ($this->values as &$values) {
+			$values[self::ACTION_COUNT] = 0;
+			$values[self::ACTION_SUM] = 0;
+		}
+	}
 
 	public function getValue($field, $action) {
 		if (!array_key_exists($field, $this->values)) {
+			echo "No value for $field; ".implode(',', $this->values)." (".spl_object_hash($this).")\n";
 			return null;
 		}
 
+		echo "Group get $action from $field\n";
 		return $this->values[$field][$action];
 	}
 
@@ -69,8 +72,18 @@ class DataGroup {
 		}
 	}
 
-	public function end() {
-		$this->active = false;
+	public function isLastRecordInGroup() {
+		return $this->isLastRecord($this->groupField);
+	}
+
+	private function isLastRecord($field) {
+		if (!$field) {
+			return false;
+		}
+
+		$next = $this->data->peek();
+
+		return ($this->data->current()->get($field) !== $next->get($field));
 	}
 
 }

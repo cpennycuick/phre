@@ -2,10 +2,14 @@
 
 namespace PHRE\Entities;
 
-abstract class Element implements Renderable {
+use PHRE\DataSource\DataSource;
+
+abstract class Element {
 
 	protected function __construct() {
 	}
+
+	abstract public function render(DataSource $data);
 
 	abstract public function reset();
 

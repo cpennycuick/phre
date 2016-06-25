@@ -20,10 +20,14 @@ class FieldCalc extends Element {
 		return new static($field, $action);
 	}
 
+	public function getFieldName() {
+		return $this->field;
+	}
+
 	public function render(DataSource $data) {
-//		if (!$data->group()) {
-//			return null;
-//		}
+		if (!$data->group()) {
+			return $data->current()->get($this->field);
+		}
 
 		return $data->group()->getValue($this->field, $this->action);
 	}

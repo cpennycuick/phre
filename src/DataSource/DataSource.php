@@ -23,11 +23,13 @@ interface DataSource {
 	/**
 	 * @return DataGroup
 	 */
-	public function startGroup();
+	public function startGroup($groupField);
 
 	/**
 	 * @return DataGroup
 	 */
 	public function group();
+
+	public function isLastRecordInGroup();
 
 }

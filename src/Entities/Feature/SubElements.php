@@ -14,6 +14,10 @@ trait SubElements {
 		return $this;
 	}
 
+	public function getElements() {
+		return $this->elements;
+	}
+
 	protected function renderElements(DataSource $data) {
 		$parts = [];
 
@@ -21,7 +25,7 @@ trait SubElements {
 			$parts[] = $element->render($data);
 		}
 
-		return implode("\n", $parts);
+		return implode('', $parts);
 	}
 
 	protected function resetElements() {

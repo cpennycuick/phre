@@ -1,8 +1,10 @@
 <?php
 
-namespace PHRE\Entities;
+namespace PHRE\Entities\Tag;
 
-class TableCell extends HTMLElement {
+use PHRE\Entities\Tag;
+
+class td extends Tag {
 
 	public static function create() {
 		return new static('td');

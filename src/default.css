@@ -1,0 +1,35 @@
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+/* HTML */
+
+html#html {
+	background-color: #444;
+	text-align: center;
+}
+
+html#html .page {
+	box-sizing: border-box;
+	margin: 10mm auto;
+	padding: 0px;
+	text-align: left;
+	width: 210mm;
+	min-height: 297mm;
+	background-color: white;
+	border: 1px solid #444;
+}
+
+/* PDF */
+
+html#pdf { }
+
+html#pdf .page {
+	margin: 0;
+	padding: 0;
+	page-break-after: always;
+}
+html#pdf .page:last-child {
+	page-break-after: auto;
+}

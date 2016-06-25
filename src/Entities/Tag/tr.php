@@ -1,18 +1,21 @@
 <?php
 
-namespace PHRE\Entities;
+namespace PHRE\Entities\Tag;
 
-class TableRow extends HTMLElement {
+use PHRE\Entities\Element;
+use PHRE\Entities\Tag;
+
+class tr extends Tag {
 
 	public static function create() {
 		return new static('tr');
 	}
 
 	public function add(Element $element) {
-		if ($element instanceof TableCell) {
+		if ($element instanceof td) {
 			parent::add($element);
 		} else {
-			$cell = TableCell::create();
+			$cell = self::td();
 			$cell->add($element);
 			parent::add($cell);
 		}

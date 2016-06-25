@@ -78,28 +78,45 @@ class DataSourceArray implements DataSource {
 		return new DataRecord($this->iterator->current());
 	}
 
-	public function startGroup() {
-		$group = new DataGroup($this);
+	public function startGroup($groupField) {
+		$group = new DataGroup($this, $groupField);
 		$this->groups[] = $group;
+		$this->currentGroup = $group;
 
 		$this->processGroups();
 
 		return $group;
 	}
 
-	private function processGroups() {
-		$groups = [];
-		foreach ($this->groups as $group) {
-			if (!$group->isActive()) {
-				break; // Sub-groups must end anyway if parent group ends
-			}
+	public function endGroup() {
+		array_pop($this->groups);
 
+		if ($this->groups) {
+			$this->currentGroup = $this->groups[count($this->groups) - 1];
+		} else {
+			$this->currentGroup = null;
+		}
+	}
+
+	private function processGroups() {
+		foreach ($this->groups as $group) {
 			$group->processRecord();
-			$groups[] = $group;
-			$this->currentGroup = $group;
+		}
+	}
+
+	public function isLastRecordInGroup() {
+		if (!$this->hasNext()) {
+			return true;
 		}
 
-		$this->groups = $groups;
+		// Only check parent DataGroups; let the top most group handle its self.
+		for ($i = 0; $i < (count($this->groups) - 1); $i++) {
+			if ($this->groups[$i]->isLastRecordInGroup()) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

@@ -18,7 +18,11 @@ class Field extends Element {
 	}
 
 	public function render(DataSource $data) {
-		return $data->current()->get($this->field);
+		if (is_callable($this->field)) {
+			return call_user_func($this->field, $data->current());
+		} else {
+			return $data->current()->get($this->field);
+		}
 	}
 
 	public function reset() {
