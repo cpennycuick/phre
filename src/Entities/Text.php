@@ -10,7 +10,7 @@ class Text extends Element {
 
 	protected function __construct($text) {
 		parent::__construct();
-		$this->text = $text;
+		$this->text = htmlentities($text);
 	}
 
 	public static function create(... $text) {

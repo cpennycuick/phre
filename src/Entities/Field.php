@@ -6,7 +6,9 @@ use \PHRE\DataSource\DataSource;
 
 class Field extends Element {
 
-	private $field;
+	use \PHRE\Entities\Feature\Formatting;
+
+	protected $field;
 
 	protected function __construct($field) {
 		parent::__construct();
@@ -18,6 +20,14 @@ class Field extends Element {
 	}
 
 	public function render(DataSource $data) {
+		return $this->formatValue(
+			htmlentities(
+				$this->getValue($data)
+			)
+		);
+	}
+
+	private function getValue(DataSource $data) {
 		if (is_callable($this->field)) {
 			return call_user_func($this->field, $data->current());
 		} else {

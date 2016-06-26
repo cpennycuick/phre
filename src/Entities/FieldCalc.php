@@ -5,14 +5,14 @@ namespace PHRE\Entities;
 use \PHRE\DataSource\DataSource;
 use \PHRE\DataSource\DataGroup;
 
-class FieldCalc extends Element {
+class FieldCalc extends Field {
 
-	private $field;
+	use \PHRE\Entities\Feature\Formatting;
+
 	private $action;
 
 	protected function __construct($field, $action) {
-		parent::__construct();
-		$this->field = $field;
+		parent::__construct($field);
 		$this->action = $action;
 	}
 
@@ -24,15 +24,12 @@ class FieldCalc extends Element {
 		return $this->field;
 	}
 
-	public function render(DataSource $data) {
-		if (!$data->group()) {
+	private function getValue(DataSource $data) {
+		if ($data->group()) {
+			return $data->group()->getValue($this->field, $this->action);
+		} else {
 			return $data->current()->get($this->field);
 		}
-
-		return $data->group()->getValue($this->field, $this->action);
-	}
-
-	public function reset() {
 	}
 
 }

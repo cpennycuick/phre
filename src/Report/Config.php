@@ -1,8 +1,8 @@
 <?php
 
-namespace PHRE;
+namespace PHRE\Report;
 
-class ReportConfig {
+class Config {
 
 	const KEY_ORIENTATION = 'Orientation';
 	const KEY_MARGIN = 'Margin';

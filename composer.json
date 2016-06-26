@@ -4,6 +4,9 @@
 		"mikehaertl/phpwkhtmltopdf": "2.2.0",
 		"wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3"
 	},
+	"require-dev": {
+		"phpunit/phpunit": "5.4.6"
+	},
 	"autoload": {
 		"psr-4": {
 			"PHRE\\": "src/"

@@ -8,12 +8,13 @@ use PHRE\DataHolder\StyleSheet;
 class Report {
 
 	use \PHRE\Entities\Feature\SubElements;
+	use \PHRE\Report\Feature\Formatting;
 
 	const FORMAT_HTML = 'HTML';
 	const FORMAT_PDF = 'PDF';
 
 	/**
-	 * @var ReportConfig
+	 * @var Report\Config
 	 */
 	private $config;
 
@@ -102,7 +103,7 @@ class Report {
 	}
 
 	private function createHTMLStyleSheetFromConfig() {
-		$margins = $this->config->get(ReportConfig::KEY_MARGIN);
+		$margins = $this->config->get(Report\Config::KEY_MARGIN);
 
 		$styleSheet = (new StyleSheet())
 			->add('html#html .page', (new DataHolder\Style())
@@ -116,7 +117,7 @@ class Report {
 	}
 
 	private function outputPDF($html) {
-		$margins = $this->config->get(ReportConfig::KEY_MARGIN);
+		$margins = $this->config->get(Report\Config::KEY_MARGIN);
 
 		$pdf = new \mikehaertl\wkhtmlto\Pdf([
 			'binary' => 'vendor/wemersonjanuario/wkhtmltopdf-windows/bin/64bit/wkhtmltopdf.exe',
