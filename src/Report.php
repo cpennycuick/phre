@@ -8,7 +8,6 @@ use PHRE\DataHolder\StyleSheet;
 class Report {
 
 	use \PHRE\Entities\Feature\SubElements;
-	use \PHRE\Report\Feature\Formatting;
 
 	const FORMAT_HTML = 'HTML';
 	const FORMAT_PDF = 'PDF';
@@ -21,7 +20,7 @@ class Report {
 	private $styleSheets = [];
 
 	public function __construct() {
-		$this->config = new ReportConfig();
+		$this->config = new Report\Config();
 	}
 
 	public static function create() {
@@ -29,7 +28,7 @@ class Report {
 	}
 
 	/**
-	 * @return ReportConfig
+	 * @return Report\Config
 	 */
 	public function config() {
 		return $this->config;
@@ -120,7 +119,7 @@ class Report {
 		$margins = $this->config->get(Report\Config::KEY_MARGIN);
 
 		$pdf = new \mikehaertl\wkhtmlto\Pdf([
-			'binary' => 'vendor/wemersonjanuario/wkhtmltopdf-windows/bin/64bit/wkhtmltopdf.exe',
+			'binary' => __DIR__.'/../vendor/wemersonjanuario/wkhtmltopdf-windows/bin/64bit/wkhtmltopdf.exe',
 			'no-outline', // Make Chrome not complain
 			'margin-top' => $margins['Top'],
 			'margin-right' => $margins['Right'],

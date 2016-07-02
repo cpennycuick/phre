@@ -6,18 +6,34 @@ use PHRE\Formatter\ArrayList;
 
 class ArrayListTest extends TestCase {
 
+	private $testArray = [
+		'One' => '1',
+		'Two' => '2',
+	];
+
 	public function testFormatArray() {
-		$this->formatter->setFormatSeparators('; ', ' = ');
-		$this->assertFormatValue('One = 1; Two = 2', [
-			'One' => '1',
-			'Two' => '2',
-		]);
+		$this->assertFormatValue('One = 1; Two = 2');
+	}
+
+	public function testFormatArrayValuesOnly() {
+		$this->formatter->setFormatSeparators('; ', null);
+		$this->assertFormatValue('1; 2');
 	}
 
 	public function testFormatArrayFromJSON() {
 		$this->formatter->setIsJSON(true);
-		$this->formatter->setFormatSeparators('; ', ' = ');
-		$this->assertFormatValue('One = 1; Two = 2', '{"One":"1","Two":"2"}');
+		$this->assertFormatValue('One = 1; Two = 2', json_encode($this->testArray));
+	}
+
+	public function testFormatArrayFromText() {
+		$this->formatter->setValueSeparators(';', ':');
+		$this->assertFormatValue('One = 1; Two = 2', 'One:1;Two:2');
+	}
+
+	public function testFormatArrayValuesFromText() {
+		$this->formatter->setFormatSeparators(', ', null);
+		$this->formatter->setValueSeparators(';', ':');
+		$this->assertFormatValue('1, 2', 'One:1;Two:2');
 	}
 
 	/* --- */
@@ -31,10 +47,11 @@ class ArrayListTest extends TestCase {
 		parent::setUp();
 
 		$this->formatter = new ArrayList();
+		$this->formatter->setFormatSeparators('; ', ' = ');
 	}
 
-	private function assertFormatValue($expected, $value) {
-		$this->assertEquals($expected, $this->formatter->formatValue($value));
+	private function assertFormatValue($expected, $value = null) {
+		$this->assertEquals($expected, $this->formatter->formatValue($value ?: $this->testArray));
 	}
 
 }

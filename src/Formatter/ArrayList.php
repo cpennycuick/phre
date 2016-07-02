@@ -63,7 +63,7 @@ class ArrayList extends Formatter {
 	}
 
 	private function explodeValue($value) {
-		if ($this->hasValue($this->valueSeperatorValue)) {
+		if (!$this->hasValue($this->valueSeperatorValue)) {
 			$baseArray = [$value];
 		} else {
 			$baseArray = explode($this->valueSeperatorValue, $value);

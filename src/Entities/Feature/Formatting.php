@@ -13,6 +13,7 @@ trait Formatting {
 
 	public function setFormatter(Formatter $formatter) {
 		$this->formatter = $formatter;
+		return $this;
 	}
 
 	protected function formatValue($value) {

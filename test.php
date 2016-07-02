@@ -23,7 +23,7 @@ $altData = [
 
 use \PHRE\Entities as PHREE;
 
-try {
+//try {
 	$report = new PHRE\Report();
 
 	$styleSheet = (new PHRE\DataHolder\StyleSheet())
@@ -38,66 +38,81 @@ try {
 			->set('border-top', '1px solid black')
 		);
 
+	$currencyAU = (new PHRE\Formatter\Currency())
+		->setCurrency('$')
+		->setFormatCustom(2, '.', ',');
+
 	$report
 		->addStyleSheet($styleSheet)
-		->add(PHREE\Tag::div()
-			->setAttribute('class', 'page')
-			->add(PHREE\Tag::table()
-				->add(PHREE\Group::create()
-					->setGroupField('Group')
-					->addHeader(PHREE\Tag::tr()
-						->setAttribute('class', 'header')
-						->add(PHREE\Field::create('Group'))
-						->add(PHREE\Text::create('Name'))
-						->add(PHREE\Text::create('Balanace'))
-					)
-					->addBody(PHREE\Group::create()
-						->setGroupField('SubGroup')
+		->add(PHREE\Group::create()
+			->setGroupField('Group')
+			->addBody(PHREE\Tag::div()
+				->setAttribute('class', 'page')
+				->add(PHREE\Tag::table()
+					->add(PHREE\Group::create()
+//						->setGroupField('Group')
 						->addHeader(PHREE\Tag::tr()
-							->setVisible(function (PHRE\DataSource\DataRecord $record) {
-								return !empty($record->get('SubGroup'));
-							})
-							->add(PHREE\Field::create('SubGroup'))
-							->add(PHREE\Text::create(''))
-							->add(PHREE\Text::create(''))
-						)
-						->addBody(PHREE\Tag::tr()
-							->add(PHREE\Field::create('ID'))
-							->add(PHREE\Field::create('Name'))
-							->add(PHREE\Field::create(function (PHRE\DataSource\DataRecord $record) {
-								return $record->get('Value');
-							}))
+							->setAttribute('class', 'header')
+							->add(PHREE\Field::create('Group'))
+							->add(PHREE\Text::create('Name'))
+							->add(PHREE\Text::create('Balanace'))
 						)
 						->addBody(PHREE\Group::create()
-							->setDataSource(function (PHRE\DataSource\DataRecord $record) use ($altData) {
-								$id = $record->get('ID');
-
-								if (!isset($altData[$id])) {
-									return null;
-								}
-
-								return new \PHRE\DataSource\DataSourceArray($altData[$id]);
-							})
+							->setGroupField('SubGroup')
+							->addHeader(PHREE\Tag::tr()
+								->setVisible(function (PHRE\DataSource\DataRecord $record) {
+									return !empty($record->get('SubGroup'));
+								})
+								->add(PHREE\Field::create('SubGroup'))
+								->add(PHREE\Text::create(''))
+								->add(PHREE\Text::create(''))
+							)
 							->addBody(PHREE\Tag::tr()
-								->add(PHREE\Text::create('AltGroup'))
-								->add(PHREE\Field::create('One'))
-								->add(PHREE\Field::create('Two'))
+								->add(PHREE\Field::create('ID'))
+								->add(PHREE\Field::create('Name'))
+								->add(PHREE\Field::create('Value')
+									->setFormatter($currencyAU)
+								)
+							)
+							->addBody(PHREE\Group::create()
+								->setDataSource(function (PHRE\DataSource\DataRecord $record) use ($altData) {
+									$id = $record->get('ID');
+
+									if (!isset($altData[$id])) {
+										return null;
+									}
+
+									return new \PHRE\DataSource\DataSource($altData[$id]);
+								})
+								->addBody(PHREE\Tag::tr()
+									->add(PHREE\Text::create('AltGroup'))
+									->add(PHREE\Field::create('One'))
+									->add(PHREE\Field::create('Two'))
+								)
 							)
 						)
-					)
-					->addFooter(PHREE\Tag::tr()
-						->setAttribute('class', 'footer')
-						->add(PHREE\Text::create('Foot'))
-						->add(PHREE\Text::create(''))
-						->add(PHREE\FieldCalc::create('Value'))
+						->addFooter(PHREE\Tag::tr()
+							->setAttribute('class', 'footer')
+							->add(PHREE\Text::create('Foot'))
+							->add(PHREE\Text::create(''))
+							->add(PHREE\FieldCalc::create('Value')
+								->setFormatter($currencyAU)
+							)
+						)
 					)
 				)
 			)
 		);
 
-	echo $report->generateHTML(new PHRE\DataSource\DataSourceArray($data));
-//	echo $report->generatePDF(new PHRE\DataSource\DataSourceArray($data));
+	if (defined('HTML')) {
+		echo $report->generateHTML(new PHRE\DataSource\DataSource($data));
+	} elseif (defined('PDF')) {
+		header('Content-Type: application/pdf');
+		echo $report->generatePDF(new PHRE\DataSource\DataSource($data));
+	} else {
+		echo 'Unknown';
+	}
 
-} catch (\Exception $e) {
-	echo $e->getMessage()."\n".$e->getTraceAsString();
-}
+//} catch (\Exception $e) {
+//	echo $e->getMessage()."\n".$e->getTraceAsString();
+//}
