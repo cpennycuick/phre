@@ -1,0 +1,5 @@
+<xml>
+	<Name>ToDo</Name>
+	<Path>ToDo</Path>
+	<Description>A simple list report demonstrating a basic group with a header row, and repeating body row. This example also introduces styles and formatters.</Description>
+</xml>

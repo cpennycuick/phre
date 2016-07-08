@@ -1,13 +1,163 @@
 html, body {
 	margin: 0px;
 	padding: 0px;
+	font-family: 'Ubuntu', sans-serif;
 }
-body {
-	background-color: #EEEEEE;
+html {
+	font-size: 16px;
+}
+#Content {
+	position: relative;
+	min-height: 100%;
 }
 
 header {
-	height: 280px;
-	background-color: #AAAAAA;
-	border-bottom: 1px solid #666666;
+	padding: 5rem 11% 0.5rem;
+	background-color: #008888;
+}
+header .Name {
+	font-size: 5rem;
+	font-weight: bold;
+	display: inline-block;
+	vertical-align: middle;
+}
+header .SubName {
+	font-size: 1.8rem;
+	display: inline-block;
+	vertical-align: middle;
+	width: 14rem;
+}
+
+#FooterSpacer {
+	height: 76px;
+}
+footer {
+	width: 100%;
+	height: 60px;
+	position: absolute;
+	bottom: 0px;
+	background-color: #001010;
+	color: #4AA;
+	padding: 1rem 10%;
+	box-sizing: border-box;
+}
+
+nav {
+	font-size: 0px;
+	padding: 0px 10%;
+	background-color: #006666;
+}
+#NavOpen {
+	width: 9rem;
+	height: 9rem;
+	display: none;
+	margin-right: 2rem;
+	background-color: red;
+	border-radius: 0.4rem;
+	vertical-align: middle;
+	float: left;
+}
+nav a {
+	display: inline-block;
+	font-size: 1rem;
+	height: 3rem;
+	line-height: 3rem;
+	padding: 0px 1rem;
+	margin: 0px;
+}
+nav a,
+nav a:hover,
+nav a:active,
+nav a:visited {
+	font-weight: bold;
+	vertical-align: middle;
+	color: #ACC;
+	text-decoration: none;
+}
+nav a:hover {
+	background-color: #004444;
+	text-decoration: underline;
+}
+nav a.selected,
+nav a.selected:hover,
+nav a.selected:active,
+nav a.selected:visited {
+	background-color: white;
+	color: black;
+}
+
+h1 {
+	margin: 1rem 0px 0.5rem 0rem;
+	font-size: 3rem;
+}
+h2 {
+	margin: 0.8rem 0px 0.3rem 0rem;
+	font-size: 2rem;
+}
+h3, h4, h5 {
+	margin: 0.5rem 0px 0rem 0rem;
+	font-size: 1rem
+}
+
+p {
+	margin: 0.5rem 0px;
+}
+
+.tab {
+	padding: 0px 10%;
+	margin: 16px 0px;
+	display: none;
+}
+.tab.selected {
+	display: block;
+}
+
+@media (max-width: 800px) {
+	html {
+		font-size: 14px;
+	}
+	header {
+		padding: 3rem 11% 0.5rem;
+	}
+	nav {
+		padding: 0rem 10%;
+	}
+	.tab {
+		padding: 0px 10%;
+	}
+}
+@media (max-width: 600px) {
+	html {
+		font-size: 10px;
+	}
+	header {
+		padding: 2rem;
+	}
+	nav {
+		display: none;
+		padding: 2rem 0px;
+	}
+	nav.open {
+		display: block;
+	}
+	#NavOpen {
+		display: block;
+	}
+	nav a {
+		font-size: 2rem;
+		line-height: 4rem;
+		height: 4rem;
+		display: block;
+		padding: 0px 2rem;
+	}
+	.tab {
+		padding: 0px 2rem;
+	}
+	footer {
+		padding: 1rem 2rem;
+	}
+	header .SubName {
+		display: block;
+		width: auto;
+	}
 }

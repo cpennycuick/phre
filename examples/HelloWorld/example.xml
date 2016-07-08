@@ -1,0 +1,5 @@
+<xml>
+	<Name>Hello World</Name>
+	<Path>HelloWorld</Path>
+	<Description>This is just a very basic example of the report which can used to test that the installation is working correctly for both HTML and PDF.</Description>
+</xml>

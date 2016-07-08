@@ -1,11 +1,41 @@
 <html>
 	<head>
 		<title>PHRE / PHP HTML Report Engine</title>
+		<link href='https://fonts.googleapis.com/css?family=Ubuntu:400,700,700italic,400italic' rel='stylesheet' type='text/css' />
 		<link type="text/css" rel="stylesheet" href="public/style.css" />
+		<script type="text/javascript" src="public/script.js"></script>
+		<script src="examples/examples.js?q=renderExamples"></script>
 	</head>
 	<body>
-		<header>
-			<h1>PHRE / PHP HTML Report Engine</h1>
-		</header>
+		<div id="Content">
+			<header>
+				<div class="">
+					<div id="NavOpen"></div>
+					<div class="Name">PHRE</div>
+					<div class="SubName">PHP HTML Report Engine</div>
+				</div>
+			</header>
+			<nav>
+				<a href="#Home">Home</a>
+				<a href="#Examples">Examples</a>
+				<a href="https://github.com/cpennycuick/phre/wiki/Documentation-Reference" target="_blank">Documentation</a>
+			</nav>
+			<div id="Tab-Home" class="tab">
+				<a name="Home"></a>
+				<h1>Home</h1>
+			</div>
+			<div id="Tab-Examples" class="tab">
+				<a name="Examples"></a>
+				<h1>Examples</h1>
+				<div id="ExamplesList"></div>
+			</div>
+			<div id="Tab-Unknown" class="tab">
+				<h1>Uh-Oh</h1>
+			</div>
+			<div id="FooterSpacer"></div>
+			<footer>
+				<div>PHRE / PHP HTML Report Engine</div>
+			</footer>
+		</div>
 	</body>
 </html>
