@@ -1,0 +1,13 @@
+html, body {
+	margin: 0px;
+	padding: 0px;
+}
+body {
+	background-color: #EEEEEE;
+}
+
+header {
+	height: 280px;
+	background-color: #AAAAAA;
+	border-bottom: 1px solid #666666;
+}
