@@ -98,7 +98,7 @@ function renderExamples (data) {
 	var content = [];
 
 	var examplesRoot = 'examples';
-	var hashRoot = (window.location.hash || '').substr(1);
+	var hashRoot = 'Examples';
 
 	var entry, hash, url;
 	for (var i = 0; i < data.length; i++) {
