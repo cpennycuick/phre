@@ -7,8 +7,6 @@ use \PHRE\DataSource\DataGroup;
 
 class FieldCalc extends Field {
 
-	use \PHRE\Entities\Feature\Formatting;
-
 	private $action;
 
 	protected function __construct($field, $action) {
