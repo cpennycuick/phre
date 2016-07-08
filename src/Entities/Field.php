@@ -21,7 +21,7 @@ class Field extends Element {
 
 	public function render(DataSource $data) {
 		return $this->formatValue(
-			htmlentities(
+			$this->sanitiseValue(
 				$this->getValue($data)
 			)
 		);
@@ -33,6 +33,14 @@ class Field extends Element {
 		} else {
 			return $data->current()->get($this->field);
 		}
+	}
+
+	private function sanitiseValue($value) {
+		if (is_string($value)) {
+			return htmlentities($value);
+		}
+
+		return $value;
 	}
 
 	public function reset() {
