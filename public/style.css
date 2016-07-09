@@ -96,7 +96,14 @@ h2 {
 }
 h3, h4, h5 {
 	margin: 0.5rem 0px 0rem 0rem;
-	font-size: 1rem
+	font-size: 1.5rem
+}
+
+hr {
+	padding: 0px;
+	margin: 0.5rem 0px;
+	border: none;
+	border-top: 1px solid #AAA;
 }
 
 p {

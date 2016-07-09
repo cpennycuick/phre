@@ -5,6 +5,11 @@ namespace PHRE;
 use PHRE\DataSource\DataSource;
 use PHRE\DataHolder\StyleSheet;
 
+/**
+ * Doc testing
+ * @example path description
+ * @example path description
+ */
 class Report {
 
 	use \PHRE\Entities\Feature\SubElements;

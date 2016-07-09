@@ -38,7 +38,8 @@ function hasHashChangeSupport () {
 }
 
 function switchTab() {
-	var tabID = (window.location.hash.substr(1) || 'Home');
+	var hashPath = window.location.hash.substr(1).split('/');
+	var tabID = (hashPath[0] || 'Home');
 
 	removeClass(document.querySelector('nav'), 'open');
 
@@ -91,37 +92,4 @@ function toggleClass(element, className) {
 	} else {
 		addClass(element, className);
 	}
-}
-
-function renderExamples (data) {
-	var reference = [];
-	var content = [];
-
-	var examplesRoot = 'examples';
-	var hashRoot = 'Examples';
-
-	var entry, hash, url;
-	for (var i = 0; i < data.length; i++) {
-		var entry = data[i];
-
-		hash = hashRoot+'/'+entry.Path;
-		url = examplesRoot+'/'+entry.Path+'/example.';
-
-		reference.push('<li><a href="#'+hash+'">'+entry.Name+'</a></li>')
-		content = content.concat([
-			'<h2><a name="'+hash+'"></a>'+entry.Name+'</h2>',
-			'<div>',
-				([
-					'<a href="https://github.com/cpennycuick/phre/tree/gh-pages/examples/'+entry.Path+'/" target=_blank">GitHub</a>',
-					'<a href="'+url+'html" target="_blank">HTML</a>',
-					'<a href="'+url+'pdf" target="_blank">PDF</a>'
-				]).join(' / '),
-			'</div>',
-			'<p>'+entry.Description+'</p>'
-		]);
-	}
-
-	window.onload.add(function() {
-		document.getElementById('ExamplesList').innerHTML = '<ul>'+reference.join('')+'</ul>'+content.join('');
-	});
 }
