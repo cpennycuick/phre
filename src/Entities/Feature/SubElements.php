@@ -5,33 +5,38 @@ namespace PHRE\Entities\Feature;
 use PHRE\DataSource\DataSource;
 use PHRE\Entities\Element;
 
-trait SubElements {
+trait SubElements
+{
 
-	private $elements = [];
+    private $elements = [];
 
-	public function add(Element $element) {
-		$this->elements[] = $element;
-		return $this;
-	}
+    public function add(Element $element)
+    {
+        $this->elements[] = $element;
+        return $this;
+    }
 
-	public function getElements() {
-		return $this->elements;
-	}
+    public function getElements()
+    {
+        return $this->elements;
+    }
 
-	protected function renderElements(DataSource $data) {
-		$parts = [];
+    protected function renderElements(DataSource $data)
+    {
+        $parts = [];
 
-		foreach ($this->elements as $element) {
-			$parts[] = $element->render($data);
-		}
+        foreach ($this->elements as $element) {
+            $parts[] = $element->render($data);
+        }
 
-		return implode('', $parts);
-	}
+        return implode('', $parts);
+    }
 
-	protected function resetElements() {
-		foreach ($this->elements as $element) {
-			$element->reset();
-		}
-	}
+    protected function resetElements()
+    {
+        foreach ($this->elements as $element) {
+            $element->reset();
+        }
+    }
 
 }

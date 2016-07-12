@@ -2,110 +2,115 @@
 
 namespace PHRE\Formatter;
 
-class ArrayList extends Formatter {
+class ArrayList extends Formatter
+{
 
-	private $isJSON = false;
+    private $isJSON = false;
+    private $valueSeperatorValue = null;
+    private $valueSeperatorKeyValue = null;
+    private $formatSeperatorValue = null;
+    private $formatSeperatorKeyValue = null;
 
-	private $valueSeperatorValue = null;
-	private $valueSeperatorKeyValue = null;
+    public function setIsJSON($isJSON)
+    {
+        $this->isJSON = $isJSON;
+        return $this;
+    }
 
-	private $formatSeperatorValue = null;
-	private $formatSeperatorKeyValue = null;
+    /**
+     * Seperators used to break the string value in to an array.
+     * @param type $seperatorValue
+     * @param type $seperatorKeyValue
+     * @return \PHRE\Formatter\ArrayList
+     */
+    public function setValueSeparators($seperatorValue, $seperatorKeyValue)
+    {
+        $this->valueSeperatorValue = $seperatorValue;
+        $this->valueSeperatorKeyValue = $seperatorKeyValue;
 
-	public function setIsJSON($isJSON) {
-		$this->isJSON = $isJSON;
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Seperators used to break the string value in to an array.
-	 * @param type $seperatorValue
-	 * @param type $seperatorKeyValue
-	 * @return \PHRE\Formatter\ArrayList
-	 */
-	public function setValueSeparators($seperatorValue, $seperatorKeyValue) {
-		$this->valueSeperatorValue = $seperatorValue;
-		$this->valueSeperatorKeyValue = $seperatorKeyValue;
+    /**
+     * Seperators used to glue the array back together formatted;
+     * @param type $seperatorValue
+     * @param type $seperatorKeyValue
+     * @return \PHRE\Formatter\ArrayList
+     */
+    public function setFormatSeparators($seperatorValue, $seperatorKeyValue)
+    {
+        $this->formatSeperatorValue = $seperatorValue;
+        $this->formatSeperatorKeyValue = $seperatorKeyValue;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Seperators used to glue the array back together formatted;
-	 * @param type $seperatorValue
-	 * @param type $seperatorKeyValue
-	 * @return \PHRE\Formatter\ArrayList
-	 */
-	public function setFormatSeparators($seperatorValue, $seperatorKeyValue) {
-		$this->formatSeperatorValue = $seperatorValue;
-		$this->formatSeperatorKeyValue = $seperatorKeyValue;
+    public function formatValue($value)
+    {
+        $value = parent::formatValue($value);
 
-		return $this;
-	}
+        if (is_array($value)) {
+            return $this->formatArray($value);
+        } elseif ($this->isJSON) {
+            $array = json_decode($value, true);
+            assert($array !== false);
 
-	public function formatValue($value) {
-		$value = parent::formatValue($value);
+            return $this->formatArray($array);
+        } elseif ($value) {
+            return $this->formatArray(
+                    $this->explodeValue($value)
+            );
+        } else {
+            return '';
+        }
+    }
 
-		if (is_array($value)) {
-			return $this->formatArray($value);
-		} else if ($this->isJSON) {
-			$array = json_decode($value, true);
-			assert($array !== false);
+    private function explodeValue($value)
+    {
+        if (!$this->hasValue($this->valueSeperatorValue)) {
+            $baseArray = [$value];
+        } else {
+            $baseArray = explode($this->valueSeperatorValue, $value);
+        }
 
-			return $this->formatArray($array);
-		} else if ($value) {
-			return $this->formatArray(
-				$this->explodeValue($value)
-			);
-		} else {
-			return '';
-		}
-	}
+        $hasSeperatorKeyValue = $this->hasValue($this->valueSeperatorKeyValue);
 
-	private function explodeValue($value) {
-		if (!$this->hasValue($this->valueSeperatorValue)) {
-			$baseArray = [$value];
-		} else {
-			$baseArray = explode($this->valueSeperatorValue, $value);
-		}
+        $array = [];
+        foreach ($baseArray as $entry) {
+            if (!$hasSeperatorKeyValue) {
+                $array[] = $entry;
+                continue;
+            }
 
-		$hasSeperatorKeyValue = $this->hasValue($this->valueSeperatorKeyValue);
+            list($key, $entryVaue) = explode($this->valueSeperatorKeyValue, $entry, 2);
 
-		$array = [];
-		foreach ($baseArray as $entry) {
-			if (!$hasSeperatorKeyValue) {
-				$array[] = $entry;
-				continue;
-			}
+            if ($entryVaue === null) {
+                $array[] = $key;
+            } else {
+                $array[$key] = $entryVaue;
+            }
+        }
 
-			list($key, $entryVaue) = explode($this->valueSeperatorKeyValue, $entry, 2);
+        return $array;
+    }
 
-			if ($entryVaue === null) {
-				$array[] = $key;
-			} else {
-				$array[$key] = $entryVaue;
-			}
-		}
+    private function formatArray($array)
+    {
+        if ($this->hasValue($this->formatSeperatorKeyValue)) {
+            $return = [];
+            foreach ($array as $key => $value) {
+                $return[] = "{$key}{$this->formatSeperatorKeyValue}{$value}";
+            }
+        } else {
+            $return = array_values($array);
+        }
 
-		return $array;
-	}
+        return implode($this->formatSeperatorValue ? : '', $return);
+    }
 
-	private function formatArray($array) {
-		if ($this->hasValue($this->formatSeperatorKeyValue)) {
-			$return = [];
-			foreach ($array as $key => $value) {
-				$return[] = "{$key}{$this->formatSeperatorKeyValue}{$value}";
-			}
-		} else {
-			$return = array_values($array);
-		}
-
-		return implode($this->formatSeperatorValue ?: '', $return);
-	}
-
-	private function hasValue($value) {
-		return ($value !== null && $value !== '');
-	}
+    private function hasValue($value)
+    {
+        return ($value !== null && $value !== '');
+    }
 
 }
-

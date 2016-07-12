@@ -4,24 +4,27 @@ namespace PHRE\Entities\Feature;
 
 use PHRE\Formatter\Formatter;
 
-trait Formatting {
+trait Formatting
+{
 
-	/**
-	 * @var Formatter
-	 */
-	private $formatter = null;
+    /**
+     * @var Formatter
+     */
+    private $formatter = null;
 
-	public function setFormatter(Formatter $formatter) {
-		$this->formatter = $formatter;
-		return $this;
-	}
+    public function setFormatter(Formatter $formatter)
+    {
+        $this->formatter = $formatter;
+        return $this;
+    }
 
-	protected function formatValue($value) {
-		if ($this->formatter) {
-			return $this->formatter->formatValue($value);
-		} else {
-			return $value;
-		}
-	}
+    protected function formatValue($value)
+    {
+        if ($this->formatter) {
+            return $this->formatter->formatValue($value);
+        } else {
+            return $value;
+        }
+    }
 
 }

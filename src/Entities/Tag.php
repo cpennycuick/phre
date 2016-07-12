@@ -5,82 +5,92 @@ namespace PHRE\Entities;
 use \PHRE\DataSource\DataSource;
 use \PHRE\DataHolder\Attributes;
 
-class Tag extends Element {
+class Tag extends Element
+{
 
-	use \PHRE\Entities\Feature\SubElements;
-	use \PHRE\Entities\Feature\Visible;
+    use \PHRE\Entities\Feature\SubElements;
 
-	/**
-	 * @var Attributes;
-	 */
-	private $attributes;
-	private $tag;
+use \PHRE\Entities\Feature\Visible;
 
-	protected function __construct($tag) {
-		parent::__construct();
-		$this->attributes = new Attributes();
-		$this->setTag($tag);
-	}
+    /**
+     * @var Attributes;
+     */
+    private $attributes;
+    private $tag;
 
-	public static function __callStatic($name, $arguments) {
-		$class = '\PHRE\Entities\Tag\\'.$name;
+    protected function __construct($tag)
+    {
+        parent::__construct();
+        $this->attributes = new Attributes();
+        $this->setTag($tag);
+    }
 
-		if (class_exists($class)) {
-			return $class::create(...$arguments);
-		}
+    public static function __callStatic($name, $arguments)
+    {
+        $class = '\PHRE\Entities\Tag\\' . $name;
 
-		return new static($name);
-	}
+        if (class_exists($class)) {
+            return $class::create(...$arguments);
+        }
 
-	public function setAttribute($name, $value) {
-		$this->attributes->set($name, $value);
-		return $this;
-	}
+        return new static($name);
+    }
 
-	public function setStyle($name, $value = null) {
-		$this->attributes->style()->set($name, $value);
-		return $this;
-	}
+    public function setAttribute($name, $value)
+    {
+        $this->attributes->set($name, $value);
+        return $this;
+    }
 
-	public function render(DataSource $data) {
-		if (!$this->isVisible($data->current())) {
-			return null;
-		}
+    public function setStyle($name, $value = null)
+    {
+        $this->attributes->style()->set($name, $value);
+        return $this;
+    }
 
-		return implode('', [
-			$this->renderTagOpen(),
-			$this->renderElements($data),
-			$this->renderTagClose(),
-		]);
-	}
+    public function render(DataSource $data)
+    {
+        if (!$this->isVisible($data->current())) {
+            return null;
+        }
 
-	public function reset() {
-		$this->resetElements();
-	}
+        return implode('', [
+            $this->renderTagOpen(),
+            $this->renderElements($data),
+            $this->renderTagClose(),
+        ]);
+    }
 
-	private function setTag($tag) {
-		if (empty($tag)) {
-			throw new \Exception('Element tag not provided.');
-		}
+    public function reset()
+    {
+        $this->resetElements();
+    }
 
-		$this->tag = strtolower(trim($tag));
-	}
+    private function setTag($tag)
+    {
+        if (empty($tag)) {
+            throw new \Exception('Element tag not provided.');
+        }
 
-	public function getTag() {
-		return $this->tag;
-	}
+        $this->tag = strtolower(trim($tag));
+    }
 
-	protected function renderTagOpen() {
-		$attributesText = ($this->attributes->hasAttributes()
-			? ' ' . (string) $this->attributes
-			: ''
-		);
+    public function getTag()
+    {
+        return $this->tag;
+    }
 
-		return "<{$this->tag}{$attributesText}>";
-	}
+    protected function renderTagOpen()
+    {
+        $attributesText = ($this->attributes->hasAttributes() ? ' ' . (string) $this->attributes : ''
+            );
 
-	protected function renderTagClose() {
-		return "</{$this->tag}>";
-	}
+        return "<{$this->tag}{$attributesText}>";
+    }
+
+    protected function renderTagClose()
+    {
+        return "</{$this->tag}>";
+    }
 
 }

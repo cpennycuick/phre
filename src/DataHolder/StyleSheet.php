@@ -2,23 +2,26 @@
 
 namespace PHRE\DataHolder;
 
-class StyleSheet {
+class StyleSheet
+{
 
-	private $elements = [];
+    private $elements = [];
 
-	public function add($path, Style $style) {
-		$this->elements[$path] = $style;
-		return $this;
-	}
+    public function add($path, Style $style)
+    {
+        $this->elements[$path] = $style;
+        return $this;
+    }
 
-	public function __toString() {
-		$parts = [];
+    public function __toString()
+    {
+        $parts = [];
 
-		foreach ($this->elements as $path => $style) {
-			$parts[] = "{$path} { {$style} }";
-		}
+        foreach ($this->elements as $path => $style) {
+            $parts[] = "{$path} { {$style} }";
+        }
 
-		return implode("\n", $parts);
-	}
+        return implode("\n", $parts);
+    }
 
 }

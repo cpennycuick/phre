@@ -2,28 +2,31 @@
 
 namespace PHRE\Formatter;
 
-class Boolean extends Formatter {
+class Boolean extends Formatter
+{
 
-	private $valueTrue = 'True';
-	private $valueFalse = 'False';
+    private $valueTrue = 'True';
+    private $valueFalse = 'False';
 
-	public function setTrueFalseValues($valueTrue, $valueFalse) {
-		$this->valueTrue = $valueTrue;
-		$this->valueFalse = $valueFalse;
+    public function setTrueFalseValues($valueTrue, $valueFalse)
+    {
+        $this->valueTrue = $valueTrue;
+        $this->valueFalse = $valueFalse;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function formatValue($value) {
-		$value = parent::formatValue($value);
+    public function formatValue($value)
+    {
+        $value = parent::formatValue($value);
 
-		if ($value === true) {
-			return $this->valueTrue;
-		} else if ($value === false) {
-			return $this->valueFalse;
-		} else {
-			return '';
-		}
-	}
+        if ($value === true) {
+            return $this->valueTrue;
+        } elseif ($value === false) {
+            return $this->valueFalse;
+        } else {
+            return '';
+        }
+    }
 
 }

@@ -4,24 +4,30 @@ namespace PHRE\Entities;
 
 use \PHRE\DataSource\DataSource;
 
-class Text extends Element {
+class Text extends Element
+{
 
-	private $text;
+    private $text;
 
-	protected function __construct($text) {
-		parent::__construct();
-		$this->text = htmlentities($text);
-	}
+    protected function __construct($text)
+    {
+        parent::__construct();
+        $this->text = htmlentities($text);
+    }
 
-	public static function create(... $text) {
-		return new static(implode('', $text));
-	}
+    public static function create(... $text)
+    {
+        return new static(implode('', $text));
+    }
 
-	public function render(DataSource $data) {
-		return $this->text;
-	}
+    public function render(DataSource $data)
+    {
+        return $this->text;
+    }
 
-	public function reset() {
-	}
+    public function reset()
+    {
+
+    }
 
 }

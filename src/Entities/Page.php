@@ -2,25 +2,28 @@
 
 namespace PHRE\Entities;
 
-class Page extends Element {
+class Page extends Element
+{
 
-	use \PHRE\Entities\Feature\SubElements;
+    use \PHRE\Entities\Feature\SubElements;
 
-	public static function create() {
-		return new static();
-	}
+    public static function create()
+    {
+        return new static();
+    }
 
-	public function render(\PHRE\DataSource\DataSource $data) {
-		return implode('', [
-			'<div class="Page">',
-			$this->renderElements($data),
-			'</div>',
-		]);
+    public function render(\PHRE\DataSource\DataSource $data)
+    {
+        return implode('', [
+            '<div class="Page">',
+            $this->renderElements($data),
+            '</div>',
+        ]);
+    }
 
-	}
-
-	public function reset() {
-		$this->resetElements();
-	}
+    public function reset()
+    {
+        $this->resetElements();
+    }
 
 }

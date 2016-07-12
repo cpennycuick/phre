@@ -2,12 +2,12 @@
 
 namespace PHRE\DataHolder;
 
-interface SpecialAttribute {
+interface SpecialAttribute
+{
 
-	public function fromText($text);
+    public function fromText($text);
 
-	public function hasElements();
+    public function hasElements();
 
-	public function reset();
-
+    public function reset();
 }

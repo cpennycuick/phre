@@ -4,13 +4,15 @@ namespace PHRE\Entities;
 
 use PHRE\DataSource\DataSource;
 
-abstract class Element {
+abstract class Element
+{
 
-	protected function __construct() {
-	}
+    protected function __construct()
+    {
 
-	abstract public function render(DataSource $data);
+    }
 
-	abstract public function reset();
+    abstract public function render(DataSource $data);
 
+    abstract public function reset();
 }
